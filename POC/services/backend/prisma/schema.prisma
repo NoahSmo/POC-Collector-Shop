@@ -1,0 +1,73 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  password         String
+  role             String   @default("user")
+  name             String
+  bio              String?
+  location         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  products         Product[] @relation("Seller")
+  buyerChatRooms   ChatRoom[] @relation("Buyer")
+  sellerChatRooms  ChatRoom[] @relation("Seller")
+  messages         Message[]
+}
+
+model Product {
+  id          String     @id @default(uuid())
+  title       String
+  year        String
+  price       String
+  image       String
+  description String
+  isSold      Boolean    @default(false)
+  sellerId    String?
+  seller      User?      @relation("Seller", fields: [sellerId], references: [id])
+  chatRooms   ChatRoom[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  status      String     @default("approved")
+}
+
+model ChatRoom {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  buyerId   String
+  buyer     User     @relation("Buyer", fields: [buyerId], references: [id])
+  sellerId  String
+  seller    User     @relation("Seller", fields: [sellerId], references: [id])
+  messages  Message[]
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  chatRoomId String
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+  senderId   String
+  sender     User     @relation(fields: [senderId], references: [id])
+  text       String
+  createdAt  DateTime @default(now())
+}
+
+model Listing {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  status      String   @default("pending") // pending, approved, rejected
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+

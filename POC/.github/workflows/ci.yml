@@ -1,0 +1,65 @@
+name: Collector-Shop DevSecOps Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./services/backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./services/backend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Linting
+        run: npm run lint --if-present
+
+      - name: Run Unit & Integration Tests
+        run: npm test
+
+      - name: Build Application
+        run: npm run build
+
+  security-scan:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL (SAST)
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      # Simulate a container build to scan with Trivy
+      # Real world scenario: docker build -t collector-backend:latest .
+      - name: Container & Dependency vulnerability scan (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: './services/backend'
+          format: 'table'
+          exit-code: '1' # Fails the build on critical bugs
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
