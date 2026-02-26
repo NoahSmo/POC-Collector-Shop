@@ -17,7 +17,7 @@ spec:
       containers:
       - name: backend
         image: collector-shop-backend:local
-        imagePullPolicy: Never # Crucial: tells Minikube to use local Docker daemon image, not pull from internet
+        imagePullPolicy: Never
         ports:
         - containerPort: 3000
         env:
