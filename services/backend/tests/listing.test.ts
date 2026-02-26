@@ -3,7 +3,7 @@ import app from '../src/app';
 import jwt from 'jsonwebtoken';
 
 describe('Listing API endpoint integration tests', () => {
-  const JWT_SECRET = process.env.JWT_SECRET || 'poc-super-secret-key';
+  const JWT_SECRET = process.env.JWT_SECRET || 'poc-super-secret-key-for-local-dev';
   const mockToken = jwt.sign({ sub: 'user123', name: 'John Doe' }, JWT_SECRET);
 
   describe('Integration: POST /api/listings', () => {
