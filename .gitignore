@@ -3,3 +3,5 @@ Consignes.txt
 Contexte.txt
 POC/.DS_Store
 evaluation_keywords.txt
+.env
+*.env

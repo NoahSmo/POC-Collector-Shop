@@ -26,7 +26,7 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
     }
 
     // Robust price parsing: remove currency symbols and spaces
-    let cleanPrice = product.price.replace(/[€$£\s]/g, '');
+    const cleanPrice = product.price.replace(/[€$£\s]/g, '');
     
     // Split by possible separators to identify whole and decimal parts
     const parts = cleanPrice.split(/[.,]/);
