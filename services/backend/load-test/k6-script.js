@@ -3,8 +3,8 @@ import { check, sleep } from 'k6';
 
 export const options = {
   stages: [
-    { duration: '10s', target: 20 }, // Ramp-up to 20 virtual users over 10 seconds
-    { duration: '30s', target: 20 }, // Hold load of 20 virtual users
+    { duration: '10s', target: 100 }, // Ramp-up to 20 virtual users over 10 seconds
+    { duration: '30s', target: 100 }, // Hold load of 20 virtual users
     { duration: '10s', target: 0 },  // Cool-down
   ],
   thresholds: {
@@ -31,20 +31,21 @@ export default function () {
     ]
   });
 
+  // Pre-signed JWT using the local dev secret ('poc-super-secret-key-for-local-dev')
+  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsb2FkdGVzdC11c2VyIiwiZW1haWwiOiJsb2FkdGVzdEB0ZXN0LmNvbSIsIm5hbWUiOiJMb2FkIFRlc3RlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcyMTkxNjEwfQ.xa0KKtZzBNyLxqL5AJrjmol4Fv7o7gRwJzL6eOAdcEI';
+
   const params = {
     headers: {
       'Content-Type': 'application/json',
-      // We use a mock auth failure to measure the speed of the JWT middleware under load
-      // To test the full route, we would sign a real JWT string as a constant
-      'Authorization': 'Bearer test-token-for-load',
+      'Authorization': `Bearer ${TOKEN}`,
     },
   };
 
   const res = http.post(url, payload, params);
   
-  // We check that our API didn't crash and responded coherently
+  // We check that our API responded with a success status
   check(res, {
-    'status is 401 or 202': (r) => r.status === 401 || r.status === 202,
+    'status is 202': (r) => r.status === 202,
   });
 
   sleep(1);
