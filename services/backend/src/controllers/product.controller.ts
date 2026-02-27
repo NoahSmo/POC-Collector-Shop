@@ -11,9 +11,10 @@ export const getAllProducts = async (req: Request, res: Response) => {
     const products = await prisma.product.findMany({
       where: { 
         status: 'approved',
+        isSold: false,
         NOT: userId ? { sellerId: userId } : undefined
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { year: 'asc' }
     });
     return res.status(200).json(products);
   } catch (error: any) {
@@ -31,7 +32,7 @@ export const getMyProducts = async (req: Request, res: Response) => {
 
     const products = await prisma.product.findMany({
       where: { sellerId: userId },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { year: 'asc' }
     });
     return res.status(200).json(products);
   } catch (error: any) {
@@ -181,6 +182,46 @@ export const deleteProduct = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error: any) {
     logger.error(`Error deleting product: ${error.message}`);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { title, year, price, image, description } = req.body;
+    const userId = (req as any).user?.sub;
+    const userRole = (req as any).user?.role;
+
+    const product = await prisma.product.findUnique({
+      where: { id }
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // Authorization check: Admin can update any, user can only update own
+    if (userRole !== 'admin' && product.sellerId !== userId) {
+      return res.status(403).json({ error: 'Forbidden: You can only modify your own products' });
+    }
+
+    const updatedProduct = await prisma.product.update({
+      where: { id },
+      data: {
+        title: title || product.title,
+        year: year || product.year,
+        price: price || product.price,
+        image: image || product.image,
+        description: description || product.description,
+        status: userRole === 'admin' ? product.status : 'pending' // Re-validate if not admin
+      }
+    });
+
+    logger.info(`Product ${id} updated by ${userId} (role: ${userRole})`);
+    return res.status(200).json(updatedProduct);
+  } catch (error: any) {
+    logger.error(`Error updating product: ${error.message}`);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };

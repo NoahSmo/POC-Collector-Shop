@@ -112,23 +112,31 @@ export default function MyProducts() {
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-cinzel text-vintage-gold">{product.title}</h3>
-                  <span className="text-vintage-gold font-bold font-lora">{product.price}</span>
+                  <span className="text-vintage-gold font-bold font-lora">
+                    {product.price.includes('€') ? product.price : `€${product.price}`}
+                  </span>
                 </div>
                 <p className="text-xs text-vintage-gold-muted font-lora mb-4 uppercase tracking-tighter">{t('circa')}{product.year}</p>
                 <p className="text-sm text-vintage-gold-muted/80 font-lora line-clamp-2 mb-6 flex-1 italic">
                   "{product.description}"
                 </p>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-2">
                   <Link 
                     to={`/product/${product.id}`} 
-                    className="flex-1 text-center py-2 border border-vintage-gold/20 text-[10px] uppercase font-cinzel text-vintage-gold hover:bg-vintage-gold hover:text-black transition-all"
+                    className="flex-1 min-w-[80px] text-center py-2 border border-vintage-gold/20 text-[10px] uppercase font-cinzel text-vintage-gold hover:bg-vintage-gold hover:text-black transition-all"
                   >
                     {t('show_more')}
+                  </Link>
+                  <Link 
+                    to={`/edit-item/${product.id}`} 
+                    className="flex-1 min-w-[80px] text-center py-2 border border-blue-500/20 text-[10px] uppercase font-cinzel text-blue-400 hover:bg-blue-500 hover:text-white transition-all"
+                  >
+                    {t('modify') || 'Modify'}
                   </Link>
                   <button 
                     onClick={() => handleDelete(product.id)}
                     disabled={deletingId === product.id}
-                    className="px-4 py-2 border border-red-500/30 text-[10px] uppercase font-cinzel text-red-500 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"
+                    className="flex-1 min-w-[80px] px-4 py-2 border border-red-500/30 text-[10px] uppercase font-cinzel text-red-500 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"
                   >
                     {deletingId === product.id ? '...' : t('delete')}
                   </button>

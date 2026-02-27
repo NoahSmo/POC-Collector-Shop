@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: collector-backend
+  namespace: collector-shop
   labels:
     app: backend
 spec:
@@ -16,13 +17,39 @@ spec:
     spec:
       containers:
       - name: backend
-        image: collector-shop-backend:local
+        image: collector-backend:local
         imagePullPolicy: Never
         ports:
         - containerPort: 3000
         env:
+        - name: PORT
+          value: "3000"
         - name: LOG_LEVEL
           value: "info"
+        - name: REDIS_URL
+          value: "redis://redis-service:6379"
+        - name: FRONTEND_URL
+          value: "http://collector-frontend-service"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: collector-secrets
+              key: JWT_SECRET
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: collector-secrets
+              key: DATABASE_URL
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: collector-secrets
+              key: STRIPE_SECRET_KEY
+        - name: STRIPE_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: collector-secrets
+              key: STRIPE_WEBHOOK_SECRET
         resources:
           requests:
             memory: "128Mi"
@@ -34,19 +61,26 @@ spec:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 5
+          initialDelaySeconds: 10
           periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: collector-backend-service
+  namespace: collector-shop
 spec:
-  type: NodePort # Allows local testing outside the cluster via minikube service
+  type: NodePort
   selector:
     app: backend
   ports:
     - protocol: TCP
-      port: 80
+      port: 3000
       targetPort: 3000
       nodePort: 30080

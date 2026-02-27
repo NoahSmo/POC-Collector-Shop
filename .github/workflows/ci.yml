@@ -35,8 +35,8 @@ jobs:
       - name: Linting
         run: npm run lint --if-present
 
-      - name: Run Unit & Integration Tests
-        run: npm test
+      - name: Run Unit & Integration Tests with Coverage
+        run: npm test -- --coverage
 
       - name: Build Application
         run: npm run build

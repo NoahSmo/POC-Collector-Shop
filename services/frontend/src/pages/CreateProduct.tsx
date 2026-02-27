@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { useToast } from '../context/ToastContext';
 
 export default function CreateProduct() {
   const { t } = useTranslation();
+  const { id } = useParams();
   const navigate = useNavigate();
   const { showToast } = useToast();
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const isEditMode = !!id;
 
   const [formData, setFormData] = useState({
     title: '',
@@ -20,6 +22,21 @@ export default function CreateProduct() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isEditMode) {
+      const fetchProduct = async () => {
+        try {
+          const res = await axios.get(`${API_URL}/api/products/${id}`);
+          setFormData(res.data);
+        } catch (err) {
+          console.error("Error fetching product:", err);
+          showToast("Error fetching product data", 'error');
+        }
+      };
+      fetchProduct();
+    }
+  }, [isEditMode, id, API_URL]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,16 +58,31 @@ export default function CreateProduct() {
     setLoading(true);
     setError('');
 
+    const inputYear = parseInt(formData.year);
+
+    if (isNaN(inputYear) || inputYear < 1800 || inputYear > 2026) {
+      setError(`${t('invalid_year') || 'Invalid year'}. ${t('future_year_error') || 'Year must be between 1800 and 2026'}.`);
+      setLoading(false);
+      return;
+    }
+
     try {
       const token = localStorage.getItem('auth_token');
-      await axios.post(`${API_URL}/api/products`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      showToast(t('success_product_create') || "Product successfully listed! It is now pending admin validation before appearing in the catalog.", 'success');
-      navigate('/');
+      if (isEditMode) {
+        await axios.put(`${API_URL}/api/products/${id}`, formData, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        showToast(t('success_product_update') || "Product successfully updated! It will be reviewed by an admin.", 'success');
+      } else {
+        await axios.post(`${API_URL}/api/products`, formData, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        showToast(t('success_product_create') || "Product successfully listed! It is now pending admin validation before appearing in the catalog.", 'success');
+      }
+      navigate('/my-articles');
     } catch (err: any) {
-      console.error("Error creating product:", err);
-      setError(err.response?.data?.error || 'Error creating product');
+      console.error("Error saving product:", err);
+      setError(err.response?.data?.error || 'Error saving product');
     } finally {
       setLoading(false);
     }
@@ -67,7 +99,7 @@ export default function CreateProduct() {
 
         <div className="mb-10 text-center">
           <h2 className="text-4xl font-cinzel text-vintage-gold-muted mb-2 tracking-widest uppercase">
-            {t('create_product')}
+            {isEditMode ? t('modify_item') || 'Modify Item' : t('create_product')}
           </h2>
           <div className="w-24 h-px bg-vintage-gold/40 mx-auto mt-4 relative">
              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[10px] text-vintage-gold/60">★</div>
@@ -102,6 +134,9 @@ export default function CreateProduct() {
               </label>
               <input
                 required
+                type="number"
+                min="1800"
+                max="2026"
                 name="year"
                 value={formData.year}
                 onChange={handleChange}
@@ -179,7 +214,7 @@ export default function CreateProduct() {
             disabled={loading}
             className="vintage-btn w-full py-5 !text-black font-cinzel font-bold text-lg tracking-[0.3em] bg-vintage-gold shadow-2xl hover:bg-white transition-all transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed uppercase"
           >
-            {loading ? t('saving') : t('list_item')}
+            {loading ? t('saving') : (isEditMode ? t('update_product') || 'Update Item' : t('list_item'))}
           </button>
         </form>
       </div>

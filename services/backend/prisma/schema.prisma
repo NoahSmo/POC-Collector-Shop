@@ -22,6 +22,7 @@ model User {
   buyerChatRooms   ChatRoom[] @relation("Buyer")
   sellerChatRooms  ChatRoom[] @relation("Seller")
   messages         Message[]
+  orders           Order[] @relation("BuyerOrders")
 }
 
 model Product {
@@ -38,6 +39,7 @@ model Product {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   status      String     @default("approved")
+  orders      Order[]
 }
 
 model ChatRoom {
@@ -71,3 +73,15 @@ model Listing {
   updatedAt   DateTime @updatedAt
 }
 
+model Order {
+  id              String   @id @default(uuid())
+  amount          Int
+  status          String   @default("PENDING") // PENDING, PURCHASED, FAILED
+  stripeSessionId String?  @unique
+  buyerId         String
+  buyer           User     @relation("BuyerOrders", fields: [buyerId], references: [id])
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

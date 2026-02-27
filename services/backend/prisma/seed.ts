@@ -39,14 +39,56 @@ async function main() {
     },
   });
 
-  // 2. Seed Vintage Products from POC
+  // 2. Seed Vintage Products from POC (Translated to French)
   const products = [
-    { id: '1', title: 'Typewriter Underwood', year: '1920', price: '€850', image: '/typewriter_hero.png', description: 'The Underwood No. 5 launched in 1900 has been described as "the first truly modern typewriter". This Typewriter was made in 1920 year, but working by this time.' },
-    { id: '2', title: 'Vintage Gold Watch', year: '1955', price: '€1,200', image: '/vintage_watch.png', description: 'A luxury 1950s gold vintage pocket watch. Ornate details and in perfect working condition.' },
-    { id: '3', title: 'Antique Bellows Camera', year: '1934', price: '€450', image: '/vintage_camera.png', description: 'A professional 1930s Kodak bellows camera. A gorgeous display piece for any collector.' },
-    { id: '4', title: 'Antique Rotary Phone', year: '1925', price: '€240', image: 'https://images.unsplash.com/photo-1557180295-76eee20ae8aa?q=80&w=800&auto=format&fit=crop', description: 'Beautifully restored rotary dial telephone. Has been converted to work on modern landline networks.' },
-    { id: '5', title: 'Classic Movie Projector', year: '1942', price: '€680', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop', description: 'A vintage 8mm movie projector. Fully restored and aesthetic.' },
-    { id: '6', title: 'Vintage World Map', year: '1890', price: '€320', image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=600&auto=format&fit=crop', description: 'Authentic 19th century world map with wood frame.' },
+    { 
+      id: '1', 
+      title: 'Machine à écrire Underwood', 
+      year: '1920', 
+      price: '€850', 
+      image: '/typewriter_hero.png', 
+      description: 'L\'Underwood No. 5, lancée en 1900, a été décrite comme "la première machine à écrire véritablement moderne". Cette machine a été fabriquée en 1920 et est toujours fonctionnelle aujourd\'hui.' 
+    },
+    { 
+      id: '2', 
+      title: 'Montre en or vintage', 
+      year: '1955', 
+      price: '€1,200', 
+      image: '/vintage_watch.png', 
+      description: 'Une luxueuse montre à gousset de poche en or des années 1950. Détails ornés et en parfait état de fonctionnement.' 
+    },
+    { 
+      id: '3', 
+      title: 'Appareil photo à soufflet antique', 
+      year: '1934', 
+      price: '€450', 
+      image: '/vintage_camera.png', 
+      description: 'Un appareil photo professionnel Kodak à soufflet des années 1930. Une magnifique pièce de collection pour toute exposition.' 
+    },
+    { 
+      id: '4', 
+      title: 'Téléphone à cadran rotatif vintage', 
+      year: '1925', 
+      price: '€240', 
+      image: 'https://images.unsplash.com/photo-1557180295-76eee20ae8aa?q=80&w=800&auto=format&fit=crop', 
+      description: 'Téléphone à cadran rotatif magnifiquement restauré. A été converti pour fonctionner sur les réseaux fixes modernes.' 
+    },
+    { 
+      id: '5', 
+      title: 'Projecteur de cinéma classique', 
+      year: '1942', 
+      price: '€680', 
+      image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop', 
+      description: 'Un projecteur de film 8mm vintage. Entièrement restauré et très esthétique.' 
+    },
+    { 
+      id: '6', 
+      title: 'Carte du monde ancienne', 
+      year: '1890', 
+      price: '€320', 
+      image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&w=600&auto=format&fit=crop', 
+      description: 'Carte du monde authentique du XIXe siècle avec cadre en bois raffiné.' 
+    },
   ];
 
   for (const productData of products) {

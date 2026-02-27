@@ -6,6 +6,7 @@
   --color-vintage-gold: #c29b62;
   --color-vintage-gold-muted: #937648;
   --color-vintage-beige: #d8c39b;
+  --color-vintage-contrast: #3a3022; /* Dark Brown for text on light backgrounds */
   
   --font-cinzel: 'Cinzel', serif;
   --font-lora: 'Lora', serif;
@@ -16,7 +17,7 @@
 @layer base {
   body {
     background-color: var(--color-vintage-dark);
-    color: var(--color-vintage-gold-muted);
+    color: var(--color-vintage-gold); /* Increased from muted */
     font-family: var(--font-lora);
     /* Subtle noise texture and a top-right illuminated gradient */
     background-image: var(--bg-vintage), radial-gradient(circle at 70% -20%, #3a3022 0%, transparent 60%);
@@ -167,6 +168,21 @@
   to { opacity: 1; }
 }
 
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes scaleIn {
   from {
     opacity: 0;
@@ -213,3 +229,65 @@
   transform: scale(0.98);
 }
 
+/* Premium Landing Page Nav Links */
+.nav-link-premium {
+  @apply text-[10px] uppercase tracking-[0.2em] font-cinzel text-vintage-gold-muted hover:text-vintage-gold transition-all duration-300 relative py-1;
+}
+
+.nav-link-premium::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background-color: var(--color-vintage-gold);
+  transition: width 0.3s ease;
+  opacity: 0.5;
+}
+
+.nav-link-premium:hover::after {
+  width: 100%;
+}
+
+/* Premium Image Effects */
+.premium-img-wrapper {
+  @apply relative overflow-hidden bg-transparent;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-img-wrapper::after {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-700 pointer-events-none z-30;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.05) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+}
+
+.premium-img-wrapper:hover::after {
+  @apply opacity-100;
+  animation: gloss-swipe 1.5s infinite;
+}
+
+@keyframes gloss-swipe {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  30% { transform: translateX(200%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+/* Floating shadow animation */
+.float-shadow {
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+  transition: all 0.5s ease;
+}
+
+.group:hover .float-shadow {
+  filter: drop-shadow(0 30px 25px rgba(0,0,0,0.7));
+  transform: translateY(-5px);
+}

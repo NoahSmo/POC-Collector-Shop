@@ -65,8 +65,8 @@ export const getUserChatRooms = async (req: Request, res: Response) => {
       },
       include: {
         product: true,
-        buyer: { select: { name: true, email: true } },
-        seller: { select: { name: true, email: true } },
+        buyer: { select: { id: true, name: true, email: true } },
+        seller: { select: { id: true, name: true, email: true } },
         messages: {
           orderBy: { createdAt: 'desc' },
           take: 1

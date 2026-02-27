@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllProducts, getProductById, createProduct, getPendingProducts, updateProductStatus, getMyProducts, deleteProduct, getApprovedProducts } from '../controllers/product.controller';
+import { getAllProducts, getProductById, createProduct, getPendingProducts, updateProductStatus, getMyProducts, deleteProduct, getApprovedProducts, updateProduct } from '../controllers/product.controller';
 import { requireAuth, optionalAuth } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -16,6 +16,7 @@ router.get('/:id', getProductById);
 
 // Protected routes
 router.post('/', requireAuth, createProduct);
+router.put('/:id', requireAuth, updateProduct);
 router.delete('/:id', requireAuth, deleteProduct);
 
 

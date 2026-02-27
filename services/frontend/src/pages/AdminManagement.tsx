@@ -109,7 +109,9 @@ export default function AdminManagement() {
                     </div>
                   </td>
                   <td className="p-4 text-sm text-vintage-gold-muted font-lora">{product.seller?.name || 'Unknown'}</td>
-                  <td className="p-4 text-sm text-vintage-gold font-cinzel">{product.price}</td>
+                  <td className="p-4 text-sm text-vintage-gold font-cinzel">
+                    {product.price.includes('€') ? product.price : `€${product.price}`}
+                  </td>
                   <td className="p-4 text-right">
                     <div className="flex justify-end gap-3 translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
                       <Link to={`/product/${product.id}`} className="p-2 text-vintage-gold-muted hover:text-vintage-gold transition-colors">

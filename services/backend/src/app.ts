@@ -7,6 +7,9 @@ import productRoutes from './routes/product.routes';
 import authRoutes from './routes/auth.routes';
 import chatRoutes from './routes/chat.routes';
 import userRoutes from './routes/user.routes';
+import stripeRoutes from './routes/stripe.routes';
+import stripeWebhookRoutes from './routes/stripe-webhook.routes';
+import orderRoutes from './routes/order.routes';
 
 const app = express();
 
@@ -30,6 +33,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Webhook must be parsed as raw buffer before express.json()
+app.use('/api/stripe/webhook', stripeWebhookRoutes);
+
 // Security & Standard Middleware
 app.use(helmet()); 
 app.use(cors());
@@ -47,6 +53,8 @@ app.use('/api/listings', listingRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/chats', chatRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/stripe', stripeRoutes);
+app.use('/api/orders', orderRoutes);
 
 // General Application Healthcheck 
 app.get('/health', (req, res) => {

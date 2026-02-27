@@ -8,6 +8,8 @@ services:
       - "5173:80"
     depends_on:
       - backend
+    environment:
+      - VITE_STRIPE_PUBLIC_KEY=pk_test_51T58wFFsomm6awiGH7IwIdI2e5TzQon31sg0auk7ZN7MBOdo09k99aC1VoRLq4xBXLuSSN4D5kGsEvsb5wgMchur00PNxi8MdE
     networks:
       - poc-network
 
@@ -21,6 +23,8 @@ services:
       - LOG_LEVEL=debug
       - JWT_SECRET=poc-super-secret-key-for-local-dev
       - DATABASE_URL=postgresql://root:rootpassword@postgres:5432/collector_db
+      - STRIPE_SECRET_KEY=sk_test_51T58wFFsomm6awiGNeiPJYy8mp3MJFkvOQ4ZSFNqb8qRXldzylSDDBJ1M1HpTuloc84qaoam23z58QrJKUPZZnFM00jGcQPybE
+      - FRONTEND_URL=http://localhost:5173
     depends_on:
       - postgres
     networks:

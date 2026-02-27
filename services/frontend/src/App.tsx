@@ -11,6 +11,10 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import CreateProduct from './pages/CreateProduct';
 import MyProducts from './pages/MyProducts';
+import EarningsDashboard from './pages/EarningsDashboard';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+import CheckoutCancel from './pages/CheckoutCancel';
+import MyOrders from './pages/MyOrders';
 
 function App() {
   return (
@@ -28,7 +32,12 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/list-item" element={<CreateProduct />} />
+            <Route path="/edit-item/:id" element={<CreateProduct />} />
             <Route path="/my-articles" element={<MyProducts />} />
+            <Route path="/earnings" element={<EarningsDashboard />} />
+            <Route path="/checkout/success" element={<CheckoutSuccess />} />
+            <Route path="/checkout/cancel" element={<CheckoutCancel />} />
+            <Route path="/my-orders" element={<MyOrders />} />
           </Routes>
         </main>
         

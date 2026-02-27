@@ -27,7 +27,7 @@ export default function Register() {
     try {
         const res = await axios.post(`${API_URL}/api/auth/register`, formData);
         login(res.data.token, res.data.user.id, res.data.user.role, res.data.user.name);
-        navigate('/dashboard');
+        navigate('/');
     } catch (err) {
         console.error("Registration failed", err);
     }
@@ -39,31 +39,31 @@ export default function Register() {
         <div className="product-frame-inner flex-col !aspect-auto py-12 px-8 shadow-2xl">
           
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-cinzel text-vintage-gold mb-2">{t('create_account')}</h2>
+            <h2 className="text-3xl font-cinzel text-vintage-contrast mb-2 tracking-widest">{t('create_account')}</h2>
             <div className="ornate-divider my-4">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-vintage-gold mx-2 opacity-50">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-vintage-contrast mx-2 opacity-50">
                 <path d="M12 2L14.5 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.5L12 2Z" />
               </svg>
             </div>
-            <p className="text-vintage-gold-muted font-lora text-sm">{t('exclusive_club')}</p>
+            <p className="text-vintage-contrast/80 font-lora text-sm">{t('exclusive_club')}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
             
             <div className="flex flex-col gap-2">
-              <label className="text-vintage-gold text-xs uppercase tracking-widest font-cinzel font-bold">{t('full_name')}</label>
+              <label className="text-vintage-contrast text-xs uppercase tracking-widest font-cinzel font-bold">{t('full_name')}</label>
               <input 
                 type="text" 
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder={t('name_placeholder')}
-                className="bg-black/80 border border-vintage-gold text-white font-lora outline-none px-4 py-3 shadow-inner w-full transition-colors focus:bg-black placeholder:text-vintage-gold/80"
+                className="bg-black/10 border border-vintage-gold/50 text-vintage-contrast font-lora outline-none px-4 py-3 shadow-inner w-full transition-colors focus:bg-white/10 placeholder:text-vintage-contrast/50"
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-vintage-gold text-xs uppercase tracking-widest font-cinzel font-bold">{t('email_address')} *</label>
+              <label className="text-vintage-contrast text-xs uppercase tracking-widest font-cinzel font-bold">{t('email_address')} *</label>
               <input 
                 type="email" 
                 name="email"
@@ -71,12 +71,12 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder={t('email_placeholder')}
-                className="bg-black/80 border border-vintage-gold text-white font-lora outline-none px-4 py-3 shadow-inner w-full transition-colors focus:bg-black placeholder:text-vintage-gold/80"
+                className="bg-black/10 border border-vintage-gold/50 text-vintage-contrast font-lora outline-none px-4 py-3 shadow-inner w-full transition-colors focus:bg-white/10 placeholder:text-vintage-contrast/50"
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-vintage-gold text-xs uppercase tracking-widest font-cinzel font-bold">{t('password_label')} *</label>
+              <label className="text-vintage-contrast text-xs uppercase tracking-widest font-cinzel font-bold">{t('password_label')} *</label>
               <input 
                 type="password" 
                 name="password"
@@ -84,7 +84,7 @@ export default function Register() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder={t('password_placeholder')}
-                className="bg-black/80 border border-vintage-gold text-white font-lora outline-none px-4 py-3 shadow-inner w-full transition-colors focus:bg-black placeholder:text-vintage-gold/80"
+                className="bg-black/10 border border-vintage-gold/50 text-vintage-contrast font-lora outline-none px-4 py-3 shadow-inner w-full transition-colors focus:bg-white/10 placeholder:text-vintage-contrast/50"
               />
             </div>
 
@@ -92,8 +92,8 @@ export default function Register() {
               {t('create_account')}
             </button>
 
-            <p className="text-center text-vintage-gold-muted text-xs font-lora mt-4">
-              {t('already_have_account')} <Link to="/login" className="text-vintage-gold hover:underline">{t('login_here')}</Link>
+            <p className="text-center text-vintage-contrast/70 text-xs font-lora mt-4">
+              {t('already_have_account')} <Link to="/login" className="text-vintage-contrast font-bold hover:underline">{t('login_here')}</Link>
             </p>
 
           </form>
