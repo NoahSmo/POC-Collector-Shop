@@ -155,7 +155,7 @@ const resources = {
       "logout": "Déconnexion",
       "login": "Connexion",
       "register": "S'inscrire",
-      "create_product": "Mettre en vente un article",
+      "create_product": "Mettre en vente un articleqsdqsjjbdqsjdqjsldqjlsd",
       "modify_item": "Modifier l'objet",
       "update_product": "Mettre à jour l'article",
       "new_arrivals": "Nouveautés",
