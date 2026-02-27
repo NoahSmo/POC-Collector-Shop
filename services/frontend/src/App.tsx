@@ -15,6 +15,7 @@ import EarningsDashboard from './pages/EarningsDashboard';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutCancel from './pages/CheckoutCancel';
 import MyOrders from './pages/MyOrders';
+import CGU from './pages/CGU';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/checkout/success" element={<CheckoutSuccess />} />
             <Route path="/checkout/cancel" element={<CheckoutCancel />} />
             <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/cgu" element={<CGU />} />
           </Routes>
         </main>
         

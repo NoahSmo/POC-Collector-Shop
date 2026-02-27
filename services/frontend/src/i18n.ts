@@ -135,7 +135,8 @@ const resources = {
       "manage_your_treasures": "Manage your listed items",
       "unveiling_treasures": "Unveiling items...",
       "your_treasures": "Your Treasures",
-      "no_orders_yet": "You have not acquired any treasures yet."
+      "no_orders_yet": "You have not acquired any treasures yet.",
+      "terms_of_service": "Terms of Service"
     }
   },
   fr: {
@@ -270,7 +271,8 @@ const resources = {
       "manage_your_treasures": "Gérez vos articles en vente",
       "unveiling_treasures": "Dévoilement des objets...",
       "your_treasures": "Vos Trésors",
-      "no_orders_yet": "Vous n'avez pas encore acquis de trésors."
+      "no_orders_yet": "Vous n'avez pas encore acquis de trésors.",
+      "terms_of_service": "Conditions Générales d'Utilisation"
     }
   },
   es: {
@@ -405,7 +407,8 @@ const resources = {
       "manage_your_treasures": "Gestiona tus artículos publicados",
       "unveiling_treasures": "Revelando artículos...",
       "your_treasures": "Tus Tesoros",
-      "no_orders_yet": "Aún no has adquirido ningún tesoro."
+      "no_orders_yet": "Aún no has adquirido ningún tesoro.",
+      "terms_of_service": "Términos y Condiciones"
     }
   },
   it: {
@@ -540,7 +543,8 @@ const resources = {
       "manage_your_treasures": "Gestisci i tuoi articoli messi in vendita",
       "unveiling_treasures": "Svelando oggetti...",
       "your_treasures": "I Tuoi Tesori",
-      "no_orders_yet": "Non hai ancora acquistato tesori."
+      "no_orders_yet": "Non hai ancora acquistato tesori.",
+      "terms_of_service": "Termini e Condizioni"
     }
   }
 };

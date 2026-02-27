@@ -143,6 +143,15 @@ export default function Profile() {
 
         </form>
       </div>
+
+      <div className="mt-8 text-center">
+        <a 
+          href="/cgu" 
+          className="text-vintage-gold-muted/60 hover:text-vintage-gold text-sm font-lora underline underline-offset-4 transition-colors"
+        >
+          {t('terms_of_service')}
+        </a>
+      </div>
     </div>
   );
 }
